@@ -4,31 +4,32 @@ document.body.appendChild(getSumBtn);
 
 const getSum = () => {
 //Add your code here
-  // Select all elements with class 'price'
-const priceElements = document.querySelectorAll(".price");
+  const table = document.querySelector("table");
+  const priceElements = document.querySelectorAll(".price");
+  let total = 0;
 
-let total = 0;
+  // Sum all prices
+  priceElements.forEach(priceEl => {
+    const value = parseFloat(priceEl.textContent);
+    if (!isNaN(value)) total += value;
+  });
 
-// Sum all prices
-priceElements.forEach(priceEl => {
-  total += parseFloat(priceEl.textContent);
-});
+  // Remove existing total row if it exists
+  const existingTotalRow = document.querySelector(".total-row");
+  if (existingTotalRow) {
+    existingTotalRow.remove();
+  }
 
-// Create a new row for total
-const table = document.querySelector("table"); // selects your table
-const totalRow = document.createElement("tr");
+  // Create new total row
+  const totalRow = document.createElement("tr");
+  totalRow.classList.add("total-row");
 
-// Optionally, add a class for styling
-totalRow.classList.add("total-row");
+  const totalCell = document.createElement("td");
+  totalCell.setAttribute("colspan", 2);
+  totalCell.textContent = "Total: Rs " + total;
 
-// Create a single cell spanning both columns
-const totalCell = document.createElement("td");
-totalCell.setAttribute("colspan", 2);
-totalCell.textContent = "Total: Rs " + total;
-
-// Append the cell to the row, then append the row to the table
-totalRow.appendChild(totalCell);
-table.appendChild(totalRow);
+  totalRow.appendChild(totalCell);
+  table.appendChild(totalRow);
 };
 
 getSumBtn.addEventListener("click", getSum);
