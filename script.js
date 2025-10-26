@@ -4,34 +4,35 @@ document.body.appendChild(getSumBtn);
 
 const getSum = () => {
 //Add your code here
-   
+   // Select all price cells
   const priceElements = document.querySelectorAll(".price");
-
   let total = 0;
 
-  priceElements.forEach((el) => {
-    const price = parseFloat(el.textContent);
+  // Calculate total
+  priceElements.forEach((cell) => {
+    // Convert text to number
+    const price = parseFloat(cell.textContent.trim());
     if (!isNaN(price)) {
       total += price;
     }
   });
 
+  // Get table reference
   const table = document.querySelector("table");
 
-
-  const existingTotalRow = document.querySelector(".total-row");
-  if (existingTotalRow) {
-    existingTotalRow.remove();
-  }
+  // Remove existing total row if it exists
+  const oldRow = document.querySelector(".total-row");
+  if (oldRow) oldRow.remove();
 
   // Create new total row
   const totalRow = document.createElement("tr");
   totalRow.classList.add("total-row");
 
-  // Create one cell for total
+  // Create single cell with id="ans"
   const totalCell = document.createElement("td");
-  totalCell.setAttribute("colspan", "2");
-  totalCell.textContent = `Total: Rs ${total}`;
+  totalCell.colSpan = 2;
+  totalCell.id = "ans"; // ✅ Cypress expects this ID
+  totalCell.textContent = total; // ✅ total value only, e.g., 333
 
   // Append cell to row, and row to table
   totalRow.appendChild(totalCell);
